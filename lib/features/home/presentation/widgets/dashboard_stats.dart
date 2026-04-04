@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 
 class DashboardStats extends StatelessWidget {
@@ -26,12 +27,12 @@ class DashboardStats extends StatelessWidget {
             children: [
               _StatCard(
                 height: 180,
-                color: context.colors.primaryContainer,
+                color: context.colors.primary,
                 icon: HugeIcons.strokeRoundedStar,
                 label: 'Eco Score',
                 value: ecoScore,
               ),
-              const SizedBox(height: 16),
+              AppSpacing.vGap16,
               _StatCard(
                 height: 140,
                 color: context.colors.surfaceContainerHigh,
@@ -43,7 +44,7 @@ class DashboardStats extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 16),
+        AppSpacing.hGap16,
         Expanded(
           child: Column(
             children: [
@@ -55,10 +56,10 @@ class DashboardStats extends StatelessWidget {
                 label: 'Last Scan',
                 value: lastScan,
               ),
-              const SizedBox(height: 16),
+              AppSpacing.vGap16,
               _StatCard(
                 height: 180,
-                color: context.colors.secondaryContainer,
+                color: context.colors.secondary,
                 icon: HugeIcons.strokeRoundedTree01,
                 label: 'Planet Impact',
                 value: planetImpact,
@@ -90,10 +91,10 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color contentColor = color == context.colors.primaryContainer
-        ? context.colors.onPrimaryContainer
-        : (color == context.colors.secondaryContainer
-            ? context.colors.onSecondaryContainer
+    final Color contentColor = color == context.colors.primary
+        ? context.colors.onPrimary
+        : (color == context.colors.secondary
+            ? context.colors.onSecondary
             : context.colors.onSurface);
 
     return Container(
@@ -119,7 +120,7 @@ class _StatCard extends StatelessWidget {
               size: 20,
             ),
           ),
-          const SizedBox(height: 12),
+          AppSpacing.vGap12,
           Text(
             label,
             style: context.text.labelLarge?.copyWith(

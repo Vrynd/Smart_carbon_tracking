@@ -23,7 +23,7 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? context.colors.surfaceContainerLow,
+      backgroundColor: backgroundColor ?? context.colors.surfaceContainerLow.withValues(alpha: .7),
       toolbarHeight: toolbarHeight,
       leading: leading ?? Padding(
         padding: const EdgeInsets.only(left: 16),

@@ -74,7 +74,7 @@ class MyFont {
   /// bodyLarge — teks paragraf utama
   static TextStyle bodyLarge = _baseStyle.copyWith(
     fontSize: 16,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     height: 1.5,
     letterSpacing: 0.2,
   );
