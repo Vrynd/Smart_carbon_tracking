@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 
 enum HeaderStyle { defaultStyle, centered, bold, modern }
 
 class HeaderInfo extends StatelessWidget {
-  final IconData icon;
+  final dynamic icon;
   final String title;
   final String subtitle;
   final HeaderStyle variant;
@@ -49,8 +50,8 @@ class HeaderInfo extends StatelessWidget {
                   context.colors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
+            child: _renderIcon(
+              context,
               size: 40,
               color: iconColor ?? context.colors.primary,
             ),
@@ -127,7 +128,11 @@ class HeaderInfo extends StatelessWidget {
                 color: iconBgColor ?? onBgColor.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 32, color: iconColor ?? onBgColor),
+              child: _renderIcon(
+                context,
+                size: 32,
+                color: iconColor ?? onBgColor,
+              ),
             ),
           ),
           AppSpacing.vGap20,
@@ -175,8 +180,8 @@ class HeaderInfo extends StatelessWidget {
             top: -15,
             child: Opacity(
               opacity: 0.07,
-              child: Icon(
-                icon,
+              child: _renderIcon(
+                context,
                 size: 150,
                 color: iconColor ?? context.colors.primary,
               ),
@@ -206,6 +211,18 @@ class HeaderInfo extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _renderIcon(BuildContext context,
+      {required double size, Color? color}) {
+    if (icon is IconData) {
+      return Icon(icon as IconData, size: size, color: color);
+    }
+    return HugeIcon(
+      icon: icon,
+      size: size,
+      color: color ?? context.colors.primary,
     );
   }
 }

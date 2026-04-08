@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_carbon_tracking/features/navigation/presentation/screens/navigation_screen.dart';
 import 'package:smart_carbon_tracking/features/scan/presentation/screens/scan_screen.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/screens/change_password_screen.dart';
+import 'package:smart_carbon_tracking/features/settings/presentation/screens/privacy_settings_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -21,6 +22,11 @@ class AppRouter {
         path: '/settings/change-password',
         name: 'change-password',
         builder: (context, state) => const ChangePasswordScreen(),
+      ),
+      GoRoute(
+        path: '/settings/privacy',
+        name: 'privacy',
+        builder: (context, state) => const PrivacySettingsScreen(),
       ),
     ],
   );

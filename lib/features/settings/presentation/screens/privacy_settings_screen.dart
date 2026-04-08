@@ -5,19 +5,21 @@ import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 import 'package:smart_carbon_tracking/core/widgets/header_app.dart';
 import 'package:smart_carbon_tracking/core/widgets/scaffold_app.dart';
-import 'package:smart_carbon_tracking/features/settings/controllers/change_password_controller.dart';
+import 'package:smart_carbon_tracking/features/settings/controllers/privacy_settings_controller.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/bar_action.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/change_password_form.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/header_info.dart';
+import 'package:smart_carbon_tracking/features/settings/presentation/widgets/privacy_settings_layout.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
-  const ChangePasswordScreen({super.key});
+class PrivacySettingsScreen extends StatelessWidget {
+  const PrivacySettingsScreen({super.key});
 
-  void _onUpdatePressed(
-      BuildContext context, ChangePasswordController controller) async {
-    final success = await controller.updatePassword(context);
+  void _onApplyPressed(
+    BuildContext context,
+    PrivacySettingsController controller,
+  ) async {
+    await controller.applySettings(context);
 
-    if (success && context.mounted) {
+    if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -28,13 +30,14 @@ class ChangePasswordScreen extends StatelessWidget {
                 size: 20,
               ),
               AppSpacing.hGap12,
-              const Text('Password updated successfully!'),
+              const Text('Privacy settings updated successfully!'),
             ],
           ),
           backgroundColor: context.colors.primary,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(16),
         ),
       );
@@ -46,13 +49,13 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ChangePasswordController(),
-      child: Consumer<ChangePasswordController>(
+      create: (_) => PrivacySettingsController(),
+      child: Consumer<PrivacySettingsController>(
         builder: (context, controller, child) {
           return ScaffoldApp(
             backgroundColor: context.colors.surfaceContainerLow,
             appBar: const HeaderApp(
-              title: 'Change Password',
+              title: 'Privacy Settings',
               variant: HeaderVariant.detail,
             ),
             body: ScrollConfiguration(
@@ -64,28 +67,26 @@ class ChangePasswordScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                 children: [
                   HeaderInfo(
-                    icon: HugeIcons.strokeRoundedPasswordValidation,
-                    title: 'Create Strong Password',
-                    variant: HeaderStyle.modern,
+                    icon: HugeIcons.strokeRoundedSecurityValidation,
+                    title: 'Your Profile is Protected',
                     subtitle:
-                        'Your new password must be different\nfrom previous used passwords.',
+                        'Manage how Smart Carbon securely\nprocesses your personal data.',
+                    variant: HeaderStyle.modern,
                   ),
-                  AppSpacing.vGap16,
-                  
-                  const ChangePasswordForm(),
+                  AppSpacing.vGap24,
+
+                  const PrivacySettingsLayout(),
                 ],
               ),
             ),
             bottomNavigationBar: BarAction(
-              safetyTitle: 'Safety Confirmation',
+              safetyTitle: 'Privacy Guardian',
               safetySubtitle:
-                  'I understand the consequences of forgetting my new password.',
-              buttonLabel: 'Update Password',
-              isConfirmed: controller.isConfirmed,
-              onConfirmedChanged: (value) => controller.setConfirmed(value),
-              onPressed: controller.canUpdate
-                  ? () => _onUpdatePressed(context, controller)
-                  : null,
+                  'I confirm and agree to apply these privacy setting changes.',
+              buttonLabel: 'Apply Privacy Settings',
+              isConfirmed: controller.isSafetyConfirmed,
+              onConfirmedChanged: controller.setSafetyConfirmed,
+              onPressed: () => _onApplyPressed(context, controller),
             ),
           );
         },

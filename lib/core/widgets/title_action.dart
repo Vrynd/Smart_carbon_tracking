@@ -7,6 +7,7 @@ enum ActionType { elevated, text, dots, none }
 class TitleAction extends StatelessWidget {
   final String title;
   final String? subTitle;
+  final TextStyle? titleStyle;
   final VoidCallback? onPressed;
   final dynamic iconAction;
   final bool showAction;
@@ -18,6 +19,7 @@ class TitleAction extends StatelessWidget {
     super.key,
     required this.title,
     this.subTitle,
+    this.titleStyle,
     this.onPressed,
     this.iconAction,
     this.showAction = true,
@@ -106,10 +108,11 @@ class TitleAction extends StatelessWidget {
           children: [
             Text(
               title,
-              style: context.text.titleLarge?.copyWith(
-                color: context.colors.onSurfaceVariant,
-                fontWeight: FontWeight.w700,
-              ),
+              style: titleStyle ??
+                  context.text.titleLarge?.copyWith(
+                    color: context.colors.onSurfaceVariant,
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
             if (subTitle != null && subTitle!.isNotEmpty) ...[
               const SizedBox(height: 5),

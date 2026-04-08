@@ -193,6 +193,9 @@ class _SettingScreenState extends State<SettingScreen> {
                   icon: HugeIcons.strokeRoundedShield01,
                   title: 'Privacy Settings',
                   iconColor: Colors.blue,
+                  onTap: () {
+                    context.push('/settings/privacy');
+                  },
                 ),
                 SettingTile(
                   icon: HugeIcons.strokeRoundedLink01,
