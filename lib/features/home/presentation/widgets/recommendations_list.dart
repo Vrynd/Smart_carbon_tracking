@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
-
-class RecommendationItem {
-  final String title;
-  final String category;
-  final String impact;
-  final dynamic icon;
-  final Color color;
-
-  const RecommendationItem({
-    required this.title,
-    required this.category,
-    required this.impact,
-    required this.icon,
-    required this.color,
-  });
-}
+import 'package:smart_carbon_tracking/features/home/models/recommendation_item.dart';
 
 class RecommendationsList extends StatelessWidget {
   final List<RecommendationItem> items;
@@ -92,7 +77,7 @@ class _RecommendationCard extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(

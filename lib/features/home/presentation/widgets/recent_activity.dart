@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
+import 'package:smart_carbon_tracking/features/home/models/activity_item.dart';
 
 class RecentActivity extends StatelessWidget {
-  final List<ActivityItemData> activities;
+  final List<ActivityItem> activities;
   final VoidCallback? onSeeAllTap;
 
   const RecentActivity({
@@ -27,24 +28,8 @@ class RecentActivity extends StatelessWidget {
   }
 }
 
-class ActivityItemData {
-  final String title;
-  final String subtitle;
-  final String impact;
-  final dynamic icon;
-  final Color iconColor;
-
-  const ActivityItemData({
-    required this.title,
-    required this.subtitle,
-    required this.impact,
-    required this.icon,
-    required this.iconColor,
-  });
-}
-
 class _ActivityTile extends StatelessWidget {
-  final ActivityItemData data;
+  final ActivityItem data;
   const _ActivityTile({required this.data});
 
   @override
@@ -52,11 +37,11 @@ class _ActivityTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.colors.surfaceContainerLowest.withValues(alpha: .7),
-        borderRadius: BorderRadius.circular(20),
+        color: context.colors.surfaceContainerLowest.withValues(alpha: .8),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.colors.surfaceContainerLowest,
-          width: 1.1,
+          width: 1.2,
         ),
       ),
       child: Row(

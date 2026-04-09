@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
+import 'package:smart_carbon_tracking/features/home/models/dashboard_stats_model.dart';
 
 class DashboardStats extends StatelessWidget {
-  final String ecoScore;
-  final String scanStreak;
-  final String lastScan;
-  final String planetImpact;
+  final DashboardStatsModel stats;
 
   const DashboardStats({
     super.key,
-    required this.ecoScore,
-    required this.scanStreak,
-    required this.lastScan,
-    required this.planetImpact,
+    required this.stats,
   });
 
   @override
@@ -30,7 +25,7 @@ class DashboardStats extends StatelessWidget {
                 color: context.colors.primary,
                 icon: HugeIcons.strokeRoundedStar,
                 label: 'Eco Score',
-                value: ecoScore,
+                value: stats.ecoScore,
               ),
               AppSpacing.vGap16,
               _StatCard(
@@ -39,7 +34,7 @@ class DashboardStats extends StatelessWidget {
                 icon: HugeIcons.strokeRoundedZap,
                 iconAccentColor: Colors.orange.shade600,
                 label: 'Scan Streak',
-                value: scanStreak,
+                value: stats.scanStreak,
               ),
             ],
           ),
@@ -54,7 +49,7 @@ class DashboardStats extends StatelessWidget {
                 icon: HugeIcons.strokeRoundedInvoice,
                 iconAccentColor: Colors.blue.shade600,
                 label: 'Last Scan',
-                value: lastScan,
+                value: stats.lastScan,
               ),
               AppSpacing.vGap16,
               _StatCard(
@@ -62,7 +57,7 @@ class DashboardStats extends StatelessWidget {
                 color: context.colors.secondary,
                 icon: HugeIcons.strokeRoundedTree01,
                 label: 'Planet Impact',
-                value: planetImpact,
+                value: stats.planetImpact,
               ),
             ],
           ),

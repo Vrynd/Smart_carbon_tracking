@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:smart_carbon_tracking/features/home/presentation/screens/recent_activity_screen.dart';
 import 'package:smart_carbon_tracking/features/navigation/presentation/screens/navigation_screen.dart';
 import 'package:smart_carbon_tracking/features/scan/presentation/screens/scan_screen.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/screens/change_password_screen.dart';
@@ -27,6 +28,11 @@ class AppRouter {
         path: '/settings/privacy',
         name: 'privacy',
         builder: (context, state) => const PrivacySettingsScreen(),
+      ),
+      GoRoute(
+        path: '/home/recent-activity',
+        name: 'recent-activity',
+        builder: (context, state) => const RecentActivityScreen()
       ),
     ],
   );

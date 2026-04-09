@@ -1,129 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
-import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 import 'package:smart_carbon_tracking/core/widgets/header_app.dart';
 import 'package:smart_carbon_tracking/core/widgets/scaffold_app.dart';
 import 'package:smart_carbon_tracking/core/widgets/title_action.dart';
+import 'package:smart_carbon_tracking/features/home/controllers/home_controller.dart';
 import 'package:smart_carbon_tracking/features/home/presentation/widgets/dashboard_stats.dart';
 import 'package:smart_carbon_tracking/features/home/presentation/widgets/recent_activity.dart';
 import 'package:smart_carbon_tracking/features/home/presentation/widgets/recommendations_list.dart';
+import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 
-class HomeScreen extends StatelessWidget {
+/// Halaman utama aplikasi yang menampilkan statistik, rekomendasi,
+/// dan aktivitas karbon terbaru pengguna.
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Panggil setelah frame pertama selesai agar context sudah tersedia.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<HomeController>().init();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ScaffoldApp(
-      backgroundColor: context.colors.surfaceContainerLow,
-      appBar: const HeaderApp(),
-      body: ScrollConfiguration(
-        behavior: const ScrollBehavior().copyWith(
-          overscroll: false,
-          physics: const BouncingScrollPhysics(),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: DashboardStats(
-                ecoScore: '3,492',
-                scanStreak: '5 Days',
-                lastScan: '+1.2kg',
-                planetImpact: '12 Trees',
-              ),
-            ),
-            AppSpacing.vGap32,
+    return Consumer<HomeController>(
+      builder: (context, controller, _) {
+        final stats = controller.stats;
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TitleAction(
-                title: 'Rekomendasi',
-                actionType: ActionType.dots,
-                dotCount: 4,
-              ),
+        return ScaffoldApp(
+          backgroundColor: context.colors.surfaceContainerLow,
+          appBar: const HeaderApp(),
+          body: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(
+              overscroll: false,
+              physics: const BouncingScrollPhysics(),
             ),
-            AppSpacing.vGap10,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              children: [
+                if (stats != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: DashboardStats(stats: stats),
+                  ),
+                AppSpacing.vGap32,
 
-            RecommendationsList(
-              items: [
-                const RecommendationItem(
-                  title: 'Common Transport',
-                  category: 'Transport',
-                  impact: '-2.5 kg',
-                  icon: HugeIcons.strokeRoundedBus01,
-                  color: Colors.blue,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TitleAction(
+                    title: 'Rekomendasi',
+                    actionType: ActionType.dots,
+                    dotCount: 4,
+                  ),
                 ),
-                const RecommendationItem(
-                  title: 'Plant-Based Diet',
-                  category: 'Food',
-                  impact: '-1.8 kg',
-                  icon: HugeIcons.strokeRoundedLeaf01,
-                  color: Colors.green,
+                AppSpacing.vGap10,
+
+                RecommendationsList(items: controller.recommendations),
+                AppSpacing.vGap32,
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TitleAction(
+                    title: 'Recent Activity',
+                    iconAction: HugeIcons.strokeRoundedArrowRight02,
+                    actionType: ActionType.elevated,
+                    onPressed: () {
+                      context.push('/home/recent-activity');
+                    },
+                  ),
                 ),
-                const RecommendationItem(
-                  title: 'Switch to LED',
-                  category: 'Energy',
-                  impact: '-0.9 kg',
-                  icon: HugeIcons.strokeRoundedAiIdea,
-                  color: Colors.orange,
+                AppSpacing.vGap10,
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: RecentActivity(
+                    onSeeAllTap: () {},
+                    activities: controller.recentActivities,
+                  ),
                 ),
-                const RecommendationItem(
-                  title: 'Say No to Plastic',
-                  category: 'Waste',
-                  impact: '-0.5 kg',
-                  icon: HugeIcons.strokeRoundedWaste,
-                  color: Colors.purple,
-                ),
+                AppSpacing.vGap32,
               ],
             ),
-            AppSpacing.vGap32,
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TitleAction(
-                title: 'Recent Activity',
-                iconAction: HugeIcons.strokeRoundedArrowRight02,
-                actionType: ActionType.elevated,
-                onPressed: () {},
-              ),
-            ),
-            AppSpacing.vGap10,
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: RecentActivity(
-                onSeeAllTap: () {},
-                activities: [
-                  ActivityItemData(
-                    title: 'Starbucks Coffee',
-                    subtitle: 'Food & Drink • Today, 10:24',
-                    impact: '+0.5kg',
-                    icon: HugeIcons.strokeRoundedCoffee02,
-                    iconColor: Colors.brown.shade400,
-                  ),
-                  ActivityItemData(
-                    title: 'Grab Ride',
-                    subtitle: 'Transport • Today, 08:15',
-                    impact: '+2.3kg',
-                    icon: HugeIcons.strokeRoundedCar01,
-                    iconColor: Colors.blue.shade400,
-                  ),
-                  ActivityItemData(
-                    title: 'Groceries Store',
-                    subtitle: 'Shopping • Yesterday, 19:40',
-                    impact: '+1.8kg',
-                    icon: HugeIcons.strokeRoundedShoppingBag01,
-                    iconColor: Colors.orange.shade400,
-                  ),
-                ],
-              ),
-            ),
-            AppSpacing.vGap32,
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

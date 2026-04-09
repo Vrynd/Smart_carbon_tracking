@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
-import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
-import 'package:smart_carbon_tracking/core/widgets/dashed_divider.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_bottom_bar.dart';
 
 class BarAction extends StatelessWidget {
   final String safetyTitle;
@@ -23,74 +21,14 @@ class BarAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: context.colors.surfaceContainerLowest,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-      ),
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                safetyTitle,
-                style: context.text.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                safetySubtitle,
-                style: context.text.bodySmall?.copyWith(
-                  color: context.colors.onSurfaceVariant,
-                ),
-              ),
-              trailing: Switch(
-                value: isConfirmed,
-                onChanged: onConfirmedChanged,
-                activeThumbColor: context.colors.primary,
-              ),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 4),
-              child: DashedDivider(),
-            ),
-            AppSpacing.vGap16,
-
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: isConfirmed ? onPressed : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.primary,
-                  foregroundColor: context.colors.onPrimary,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  disabledBackgroundColor:
-                      context.colors.surfaceContainerHighest,
-                ),
-                child: Text(
-                  buttonLabel,
-                  style: context.text.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: (isConfirmed && onPressed != null)
-                        ? context.colors.onPrimary
-                        : context.colors.onSurfaceVariant.withValues(
-                            alpha: 0.5,
-                          ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AppBottomBar(
+      variant: BottomVariant.action,
+      safetyTitle: safetyTitle,
+      safetySubtitle: safetySubtitle,
+      buttonLabel: buttonLabel,
+      isConfirmed: isConfirmed,
+      onConfirmedChanged: onConfirmedChanged,
+      onActionPressed: onPressed,
     );
   }
 }
