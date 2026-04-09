@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_container.dart';
 import 'package:smart_carbon_tracking/core/widgets/dashed_divider.dart';
 
 class AccountProfile extends StatelessWidget {
@@ -26,31 +27,19 @@ class AccountProfile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.colors.surfaceContainerLowest.withValues(
-            alpha: .7,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: context.colors.surfaceContainerLowest,
-            width: 1.2,
-          ),
-        ),
-        child: Column(
-          spacing: 8,
-          children: [
-            Row(
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundImage: Image.network(avatarUrl).image,
-                ),
-                Column(
+      child: AppContainer(
+        variant: ContainerVariant.compact,
+        children: [
+          Row(
+            spacing: 16,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundImage: Image.network(avatarUrl).image,
+              ),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 4,
@@ -70,34 +59,29 @@ class AccountProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Spacer(),
-                HugeIcon(
-                  icon: HugeIcons.strokeRoundedArrowRight01,
-                  color: context.colors.onSurfaceVariant,
-                  size: 24,
+              ),
+              HugeIcon(
+                icon: HugeIcons.strokeRoundedArrowRight01,
+                color: context.colors.onSurfaceVariant,
+                size: 24,
+              ),
+            ],
+          ),
+          const DashedDivider(indent: 72),
+          Padding(
+            padding: const EdgeInsets.only(left: 72),
+            child: Row(
+              children: [
+                _buildStatItem(
+                  context,
+                  label: 'Carbon Saved',
+                  value: carbonSaved,
                 ),
+                _buildStatItem(context, label: 'Eco Score', value: ecoScore),
               ],
             ),
-            const DashedDivider(indent: 72),
-            Padding(
-              padding: const EdgeInsets.only(left: 72),
-              child: Row(
-                children: [
-                  _buildStatItem(
-                    context,
-                    label: 'Carbon Saved',
-                    value: carbonSaved,
-                  ),
-                  _buildStatItem(
-                    context,
-                    label: 'Eco Score',
-                    value: ecoScore,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

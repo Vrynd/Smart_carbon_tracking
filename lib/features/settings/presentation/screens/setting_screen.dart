@@ -8,8 +8,8 @@ import 'package:smart_carbon_tracking/core/widgets/app_loading.dart';
 import 'package:smart_carbon_tracking/core/widgets/header_app.dart';
 import 'package:smart_carbon_tracking/core/widgets/scaffold_app.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/account_profile.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/setting_group.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/setting_tile.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_setting_group.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_setting_tile.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -145,29 +145,33 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             AppSpacing.vGap24,
 
-            SettingGroup(
+            AppSettingGroup(
               title: 'Personalization',
+              variant: GroupVariant.modern,
               backgroundColor: context.colors.primaryContainer,
-              items: [
-                SettingTile(
+              children: [
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedGlobe,
                   title: 'Language',
+                  variant: TileVariant.modern,
                   iconColor: Colors.indigo,
                   value: _selectedLanguage,
                   valueColor: context.colors.primary,
                   onTap: _showLanguage,
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedPaintBoard,
                   title: 'Theme Mode',
+                  variant: TileVariant.modern,
                   iconColor: Colors.amber,
                   value: _selectedTheme,
                   valueColor: context.colors.primary,
                   onTap: _showThemeMode,
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedNotification03,
                   title: 'Notifications',
+                  variant: TileVariant.modern,
                   iconColor: Colors.green,
                   value: _isNotificationEnabled ? 'Enabled' : 'Disabled',
                   valueColor: context.colors.primary,
@@ -177,57 +181,60 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             AppSpacing.vGap16,
 
-            SettingGroup(
+            AppSettingGroup(
               title: 'Account & Security',
+              variant: GroupVariant.modern,
               backgroundColor: context.colors.secondaryContainer,
-              items: [
-                SettingTile(
+              children: [
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedPasswordValidation,
                   title: 'Change Password',
+                  variant: TileVariant.modern,
                   iconColor: Colors.orange,
                   onTap: () {
                     context.push('/settings/change-password');
                   },
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedShield01,
                   title: 'Privacy Settings',
+                  variant: TileVariant.modern,
                   iconColor: Colors.blue,
                   onTap: () {
                     context.push('/settings/privacy');
                   },
                 ),
-                SettingTile(
-                  icon: HugeIcons.strokeRoundedLink01,
-                  title: 'Social Accounts',
-                  iconColor: Colors.cyan,
-                ),
               ],
             ),
             AppSpacing.vGap16,
 
-            SettingGroup(
+            AppSettingGroup(
               title: 'Support',
+              variant: GroupVariant.modern,
               backgroundColor: context.colors.tertiaryContainer,
-              items: [
-                SettingTile(
+              children: [
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedInformationCircle,
                   title: 'About App',
+                  variant: TileVariant.modern,
                   iconColor: Colors.purple,
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedHelpCircle,
                   title: 'Help Center',
+                  variant: TileVariant.modern,
                   iconColor: Colors.teal,
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedBug01,
                   title: 'Report Bug',
+                  variant: TileVariant.modern,
                   iconColor: Colors.redAccent,
                 ),
-                SettingTile(
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedSoftwareLicense,
                   title: 'App Version',
+                  variant: TileVariant.modern,
                   iconColor: Colors.blueGrey,
                   value: 'v1.0.0',
                   valueColor: context.colors.tertiary,
@@ -236,13 +243,15 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             AppSpacing.vGap16,
 
-            SettingGroup(
+            AppSettingGroup(
               title: 'Session',
+              variant: GroupVariant.modern,
               backgroundColor: context.colors.errorContainer,
-              items: [
-                SettingTile(
+              children: [
+                AppSettingTile(
                   icon: HugeIcons.strokeRoundedLogout03,
                   title: 'Sign Out',
+                  variant: TileVariant.modern,
                   iconColor: context.colors.error,
                   trailing: const SizedBox.shrink(),
                   onTap: () {},

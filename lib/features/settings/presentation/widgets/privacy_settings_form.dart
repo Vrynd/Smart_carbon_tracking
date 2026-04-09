@@ -7,11 +7,11 @@ import 'package:smart_carbon_tracking/core/widgets/dashed_divider.dart';
 import 'package:smart_carbon_tracking/core/widgets/title_action.dart';
 import 'package:smart_carbon_tracking/features/settings/controllers/privacy_settings_controller.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/account_privacy.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/privacy_group.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/privacy_tile.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_setting_group.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_setting_tile.dart';
 
-class PrivacySettingsLayout extends StatelessWidget {
-  const PrivacySettingsLayout({super.key});
+class PrivacySettingsForm extends StatelessWidget {
+  const PrivacySettingsForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +63,12 @@ class PrivacySettingsLayout extends StatelessWidget {
               ),
             ),
             AppSpacing.vGap16,
-            PrivacyGroup(
+            AppSettingGroup(
+              variant: GroupVariant.classic,
               children: [
-                PrivacyTile(
+                AppSettingTile(
                   title: 'Show Activity',
+                  variant: TileVariant.classic,
                   subtitle: 'Let others see your carbon reduction posts.',
                   icon: HugeIcons.strokeRoundedMessageNotification01,
                   iconColor: Colors.blueAccent,
@@ -77,8 +79,9 @@ class PrivacySettingsLayout extends StatelessWidget {
                   ),
                 ),
                 const DashedDivider(height: 1),
-                PrivacyTile(
+                AppSettingTile(
                   title: 'Marketing Emails',
+                  variant: TileVariant.classic,
                   subtitle: 'Receive newsletters and eco-tips.',
                   icon: HugeIcons.strokeRoundedMail01,
                   iconColor: Colors.amber[700]!,
@@ -101,18 +104,21 @@ class PrivacySettingsLayout extends StatelessWidget {
               ),
             ),
             AppSpacing.vGap16,
-            PrivacyGroup(
+            AppSettingGroup(
+              variant: GroupVariant.classic,
               children: [
-                PrivacyTile(
+                AppSettingTile(
                   title: 'Download My Data',
+                  variant: TileVariant.classic,
                   subtitle: 'Export tracking data to PDF/CSV.',
                   icon: HugeIcons.strokeRoundedDownload02,
                   iconColor: Colors.teal,
                   onTap: () {},
                 ),
                 const DashedDivider(height: 1),
-                PrivacyTile(
+                AppSettingTile(
                   title: 'Clear History',
+                  variant: TileVariant.classic,
                   subtitle: 'Permanently remove activity history.',
                   icon: HugeIcons.strokeRoundedDelete02,
                   iconColor: Colors.redAccent,

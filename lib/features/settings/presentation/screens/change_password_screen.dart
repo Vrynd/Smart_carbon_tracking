@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Hero;
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
@@ -8,40 +8,11 @@ import 'package:smart_carbon_tracking/core/widgets/scaffold_app.dart';
 import 'package:smart_carbon_tracking/features/settings/controllers/change_password_controller.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/bar_action.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/change_password_form.dart';
-import 'package:smart_carbon_tracking/features/settings/presentation/widgets/header_info.dart';
+
+import 'package:smart_carbon_tracking/features/settings/presentation/widgets/hero_header.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
-
-  void _onUpdatePressed(
-      BuildContext context, ChangePasswordController controller) async {
-    final success = await controller.updatePassword(context);
-
-    if (success && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              Icon(
-                Icons.check_circle_rounded,
-                color: context.colors.surfaceContainerHighest,
-                size: 20,
-              ),
-              AppSpacing.hGap12,
-              const Text('Password updated successfully!'),
-            ],
-          ),
-          backgroundColor: context.colors.primary,
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.all(16),
-        ),
-      );
-
-      Navigator.of(context).pop();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +34,15 @@ class ChangePasswordScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                 children: [
-                  HeaderInfo(
+                  HeroHeader(
                     icon: HugeIcons.strokeRoundedPasswordValidation,
                     title: 'Create Strong Password',
-                    variant: HeaderStyle.modern,
+                    variant: HeroVariant.modern,
                     subtitle:
                         'Your new password must be different\nfrom previous used passwords.',
                   ),
                   AppSpacing.vGap16,
-                  
+
                   const ChangePasswordForm(),
                 ],
               ),
@@ -91,5 +62,38 @@ class ChangePasswordScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _onUpdatePressed(
+    BuildContext context,
+    ChangePasswordController controller,
+  ) async {
+    final success = await controller.updatePassword(context);
+
+    if (success && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                Icons.check_circle_rounded,
+                color: context.colors.surfaceContainerHighest,
+                size: 20,
+              ),
+              AppSpacing.hGap12,
+              const Text('Password updated successfully!'),
+            ],
+          ),
+          backgroundColor: context.colors.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          margin: const EdgeInsets.all(16),
+        ),
+      );
+
+      Navigator.of(context).pop();
+    }
   }
 }

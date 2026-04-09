@@ -3,23 +3,23 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 
-enum HeaderStyle { defaultStyle, centered, bold, modern }
+enum HeroVariant{ basic, centered, bold, modern }
 
-class HeaderInfo extends StatelessWidget {
+class HeroHeader extends StatelessWidget {
   final dynamic icon;
   final String title;
   final String subtitle;
-  final HeaderStyle variant;
+  final HeroVariant variant;
   final Color? iconColor;
   final Color? iconBgColor;
   final Color? backgroundColor;
 
-  const HeaderInfo({
+  const HeroHeader({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
-    this.variant = HeaderStyle.centered,
+    this.variant = HeroVariant.centered,
     this.iconColor,
     this.iconBgColor,
     this.backgroundColor,
@@ -28,13 +28,13 @@ class HeaderInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (variant) {
-      case HeaderStyle.defaultStyle:
+      case HeroVariant.basic:
         return _buildDefault(context);
-      case HeaderStyle.centered:
+      case HeroVariant.centered:
         return _buildCentered(context);
-      case HeaderStyle.bold:
+      case HeroVariant.bold:
         return _buildBold(context);
-      case HeaderStyle.modern:
+      case HeroVariant.modern:
         return _buildModern(context);
     }
   }

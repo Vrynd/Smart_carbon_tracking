@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_carbon_tracking/core/widgets/form_container.dart';
+import 'package:smart_carbon_tracking/core/widgets/app_container.dart';
 import 'package:smart_carbon_tracking/core/widgets/input_field.dart';
 import 'package:smart_carbon_tracking/features/settings/controllers/change_password_controller.dart';
 import 'package:smart_carbon_tracking/features/settings/presentation/widgets/password_strength_indicator.dart';
@@ -12,7 +12,7 @@ class ChangePasswordForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<ChangePasswordController>();
 
-    return FormContainer(
+    return AppContainer(
       children: [
         const InputField(
           label: 'Current Password',
@@ -20,6 +20,7 @@ class ChangePasswordForm extends StatelessWidget {
           variant: InputType.password,
           prefixIcon: Icons.lock_outline_rounded,
         ),
+
         InputField(
           label: 'New Password',
           hintText: 'Enter new password',
@@ -27,6 +28,7 @@ class ChangePasswordForm extends StatelessWidget {
           prefixIcon: Icons.vpn_key_outlined,
           onChanged: (value) => controller.setNewPassword(value),
         ),
+
         Transform.translate(
           offset: const Offset(0, -8),
           child: PasswordStrengthIndicator(
@@ -38,6 +40,7 @@ class ChangePasswordForm extends StatelessWidget {
             hasSpecialChar: controller.hasSpecialChar,
           ),
         ),
+
         const InputField(
           label: 'Confirm New Password',
           hintText: 'Retype new password',
