@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/themes/app_spacing.dart';
 import 'package:smart_carbon_tracking/core/widgets/header_app.dart';
 import 'package:smart_carbon_tracking/core/widgets/scaffold_app.dart';
+import 'package:smart_carbon_tracking/features/home/presentation/widgets/activity_tile.dart';
 import 'package:smart_carbon_tracking/core/widgets/title_action.dart';
 import 'package:smart_carbon_tracking/features/home/controllers/home_controller.dart';
 import 'package:smart_carbon_tracking/features/home/presentation/widgets/dashboard_stats.dart';
@@ -12,8 +13,6 @@ import 'package:smart_carbon_tracking/features/home/presentation/widgets/recent_
 import 'package:smart_carbon_tracking/features/home/presentation/widgets/recommendations_list.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
 
-/// Halaman utama aplikasi yang menampilkan statistik, rekomendasi,
-/// dan aktivitas karbon terbaru pengguna.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -25,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Panggil setelah frame pertama selesai agar context sudah tersedia.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<HomeController>().init();
@@ -86,8 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RecentActivity(
-                    onSeeAllTap: () {},
+                    useContainer: false,
                     activities: controller.recentActivities,
+                    variant: TileVariant.plain,
                   ),
                 ),
                 AppSpacing.vGap32,

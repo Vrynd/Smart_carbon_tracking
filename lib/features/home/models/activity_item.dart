@@ -6,19 +6,20 @@ class ActivityItem {
   final String subtitle;
   final String impact;
   final double impactKg;
-  final dynamic icon;
-  final Color iconColor;
   final DateTime date;
   final ActivityCategory category;
+  final String description;
 
   const ActivityItem({
     required this.title,
     required this.subtitle,
     required this.impact,
     required this.impactKg,
-    required this.icon,
-    required this.iconColor,
     required this.date,
     required this.category,
+    required this.description,
   });
+
+  dynamic get icon => category.icon;
+  Color get iconColor => category.color;
 }

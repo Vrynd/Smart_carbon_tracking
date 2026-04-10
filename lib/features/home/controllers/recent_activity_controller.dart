@@ -5,7 +5,6 @@ import 'package:smart_carbon_tracking/features/home/models/activity_group.dart';
 import 'package:smart_carbon_tracking/features/home/models/activity_item.dart';
 import 'package:smart_carbon_tracking/features/home/models/activity_period.dart';
 
-
 class RecentActivityController extends ChangeNotifier {
   List<ActivityItem> _allActivities = [];
   ActivityPeriod _selectedPeriod = ActivityPeriod.all;
@@ -23,14 +22,16 @@ class RecentActivityController extends ChangeNotifier {
 
       final bool periodMatch = switch (_selectedPeriod) {
         ActivityPeriod.today => itemDate == today,
-        ActivityPeriod.thisWeek =>
-          !item.date.isBefore(today.subtract(const Duration(days: 6))),
+        ActivityPeriod.thisWeek => !item.date.isBefore(
+          today.subtract(const Duration(days: 6)),
+        ),
         ActivityPeriod.thisMonth =>
           item.date.year == now.year && item.date.month == now.month,
         ActivityPeriod.all => true,
       };
 
-      final bool categoryMatch = _selectedCategory == ActivityCategory.all ||
+      final bool categoryMatch =
+          _selectedCategory == ActivityCategory.all ||
           item.category == _selectedCategory;
 
       return periodMatch && categoryMatch;
@@ -56,10 +57,21 @@ class RecentActivityController extends ChangeNotifier {
       } else {
         const months = [
           '',
-          'January', 'February', 'March', 'April', 'May', 'June',
-          'July', 'August', 'September', 'October', 'November', 'December',
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
         ];
-        label = '${months[item.date.month]} ${item.date.day}, ${item.date.year}';
+        label =
+            '${months[item.date.month]} ${item.date.day}, ${item.date.year}';
       }
 
       grouped.putIfAbsent(label, () => []).add(item);

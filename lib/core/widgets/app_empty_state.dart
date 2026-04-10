@@ -16,9 +16,12 @@ class AppEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 64),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -32,21 +35,24 @@ class AppEmptyState extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(
-            title,
-            style: context.text.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.colors.onSurface,
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: context.text.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: context.colors.onSurface,
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: context.text.bodyMedium?.copyWith(
-              color: context.colors.onSurfaceVariant,
+            const SizedBox(height: 6),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: context.text.bodyMedium?.copyWith(
+                color: context.colors.onSurfaceVariant,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

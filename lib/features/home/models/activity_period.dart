@@ -5,9 +5,9 @@ enum ActivityPeriod {
   all;
 
   String get label => switch (this) {
-    ActivityPeriod.today => 'Hari Ini',
-    ActivityPeriod.thisWeek => 'Minggu Ini',
-    ActivityPeriod.thisMonth => 'Bulan Ini',
-    ActivityPeriod.all => 'Semua',
+    ActivityPeriod.today => 'Today',
+    ActivityPeriod.thisWeek => 'Week',
+    ActivityPeriod.thisMonth => 'Month',
+    ActivityPeriod.all => 'Year',
   };
 }

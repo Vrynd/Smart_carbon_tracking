@@ -7,12 +7,14 @@ class SummaryBar extends StatelessWidget {
   final double totalKg;
   final int activityCount;
   final ActivityPeriod period;
+  final VoidCallback? onPeriodTap;
 
   const SummaryBar({
     super.key,
     required this.totalKg,
     required this.activityCount,
     required this.period,
+    this.onPeriodTap,
   });
 
   @override
@@ -29,13 +31,6 @@ class SummaryBar extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: context.colors.primary.withValues(alpha: 0.28),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
       child: Stack(
         children: [
@@ -51,7 +46,6 @@ class SummaryBar extends StatelessWidget {
               ),
             ),
           ),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -79,11 +73,23 @@ class SummaryBar extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
+
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
-                      color: context.colors.onPrimary.withValues(alpha: 0.18),
+                      color: context.colors.onPrimary.withValues(
+                        alpha: 0.18,
+                      ),
                       borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: context.colors.onPrimary.withValues(
+                          alpha: 0.1,
+                        ),
+                        width: 1,
+                      ),
                     ),
                     child: Text(
                       period.label,
@@ -95,7 +101,6 @@ class SummaryBar extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 18),
               Text(
                 '+${totalKg.toStringAsFixed(1)} kg CO₂',
@@ -107,7 +112,7 @@ class SummaryBar extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '$activityCount aktivitas terdeteksi',
+                '$activityCount activities detected',
                 style: context.text.bodyMedium?.copyWith(
                   color: context.colors.onPrimary.withValues(alpha: 0.7),
                 ),
