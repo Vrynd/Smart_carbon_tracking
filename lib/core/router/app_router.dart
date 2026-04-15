@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:smart_carbon_tracking/features/history/presentation/screens/history_screen.dart';
 import 'package:smart_carbon_tracking/features/home/presentation/screens/recent_activity_screen.dart';
 import 'package:smart_carbon_tracking/features/navigation/presentation/screens/navigation_screen.dart';
 import 'package:smart_carbon_tracking/features/scan/presentation/screens/scan_screen.dart';
@@ -34,13 +35,40 @@ class AppRouter {
         name: 'recent-activity',
         builder: (context, state) => const RecentActivityScreen(),
       ),
+      GoRoute(
+        path: '/history',
+        name: 'history',
+        builder: (context, state) => const HistoryScreen(),
+        routes: [
+          // GoRoute(
+          //   path: 'detail',
+          //   name: 'history-detail',
+          //   builder: (context, state) {
+          //     final receipt = state.extra as ReceiptModel;
+          //     return HistoryDetailScreen(receipt: receipt);
+          //   },
+          // ),
+        ],
+      ),
     ],
   );
 
-  static String getRouteTitle(String? name) {
+  static String getRouteTitle(String? name, [int? tabIndex, dynamic extra]) {
     switch (name) {
       case 'navigation':
-        return 'DashBoard';
+        switch (tabIndex) {
+          case 0:
+            return 'DashBoard';
+          case 1:
+            return 'Statistic';
+          case 2:
+            return 'Receipts History';
+          case 3:
+            return 'Settings';
+          default:
+            return 'DashBoard';
+        }
+        
       case 'scan':
         return 'Scan Carbon';
       case 'change-password':
@@ -49,6 +77,10 @@ class AppRouter {
         return 'Privacy Settings';
       case 'recent-activity':
         return 'Recent Activity';
+      case 'history':
+        return 'Scan History';
+      // case 'history-detail':
+      //   return extra is ReceiptModel ? extra.merchantName : 'Receipt Detail';
       default:
         return 'DashBoard';
     }

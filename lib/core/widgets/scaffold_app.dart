@@ -77,11 +77,15 @@ class _ScaffoldAppState extends State<ScaffoldApp> {
         backgroundColor: appBar.backgroundColor,
         variant: appBar.variant,
         isScrolled: _isScrolled,
+        bottom: appBar.bottom,
+        titleWidget: appBar.titleWidget,
+        scrolledTitleWidget: appBar.scrolledTitleWidget,
       );
     }
 
     return Scaffold(
-      backgroundColor: widget.backgroundColor ?? context.colors.surfaceContainerLow,
+      backgroundColor:
+          widget.backgroundColor ?? context.colors.surfaceContainerLow,
       appBar: effectiveAppBar,
       body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
@@ -102,4 +106,4 @@ class _ScaffoldAppState extends State<ScaffoldApp> {
       bottomNavigationBar: widget.bottomNavigationBar,
     );
   }
-}
+}

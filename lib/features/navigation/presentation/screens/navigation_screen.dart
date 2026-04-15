@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/core.dart';
+import 'package:smart_carbon_tracking/features/history/presentation/screens/history_screen.dart';
 import 'package:smart_carbon_tracking/features/home/home.dart';
 import 'package:smart_carbon_tracking/features/navigation/navigation.dart';
 import 'package:smart_carbon_tracking/features/settings/settings.dart';
@@ -35,7 +36,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             children: [
               const HomeScreen(),
               const PlaceholderNav(title: 'Statistic'),
-              const PlaceholderNav(title: 'History'),
+              const HistoryScreen(),
               const SettingScreen(),
             ],
           ),

@@ -10,6 +10,7 @@ export 'widgets/app_loading.dart';
 export 'widgets/app_setting_group.dart';
 export 'widgets/app_setting_tile.dart';
 export 'widgets/dashed_divider.dart';
+export 'widgets/dot_separator.dart';
 export 'widgets/app_timeline.dart';
 export 'widgets/header_app.dart';
 export 'widgets/input_field.dart';

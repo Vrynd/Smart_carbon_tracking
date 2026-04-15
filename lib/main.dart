@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/router/app_router.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
+import 'package:smart_carbon_tracking/features/history/controllers/history_controller.dart';
 import 'package:smart_carbon_tracking/features/home/controllers/home_controller.dart';
 import 'package:smart_carbon_tracking/features/home/controllers/recent_activity_controller.dart';
 import 'package:smart_carbon_tracking/features/navigation/controllers/bottom_bar_controller.dart';
@@ -14,6 +15,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => ScanController()),
       ChangeNotifierProvider(create: (_) => HomeController()),
       ChangeNotifierProvider(create: (_) => RecentActivityController()),
+      ChangeNotifierProvider(create: (_) => HistoryController()),
     ],
     child: const MyApp(),
   ));

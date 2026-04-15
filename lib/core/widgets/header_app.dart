@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/router/app_router.dart';
 import 'package:smart_carbon_tracking/core/themes/app_theme.dart';
+import 'package:smart_carbon_tracking/features/navigation/controllers/bottom_bar_controller.dart';
 
 enum HeaderVariant { main, detail }
 
@@ -15,6 +17,9 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final HeaderVariant variant;
   final bool isScrolled;
+  final PreferredSizeWidget? bottom;
+  final Widget? titleWidget;
+  final Widget? scrolledTitleWidget;
 
   const HeaderApp({
     super.key,
@@ -26,6 +31,9 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.variant = HeaderVariant.main,
     this.isScrolled = false,
+    this.bottom,
+    this.titleWidget,
+    this.scrolledTitleWidget,
   });
 
   @override
@@ -36,8 +44,6 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
       debugPrint('[HeaderApp] Status: TOP (Matching Surface)');
     }
 
-    // ... leadingWidget and actionWidgets logic ...
-    // (I'll keep the logic in the replacement)
     Widget? leadingWidget;
     if (leading != null) {
       leadingWidget = leading;
@@ -128,8 +134,17 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
     // Resolve dynamic title if not provided
     String? resolvedTitle = title;
     if (resolvedTitle == null) {
-      final String? routeName = GoRouterState.of(context).name;
-      resolvedTitle = AppRouter.getRouteTitle(routeName);
+      final state = GoRouterState.of(context);
+      final String? routeName = state.name;
+      final dynamic extra = state.extra;
+
+      if (routeName == 'navigation') {
+        // If we are in the navigation shell, resolve title based on tab index
+        final navIndex = context.watch<BottomBarController>().selectedIndex;
+        resolvedTitle = AppRouter.getRouteTitle(routeName, navIndex, extra);
+      } else {
+        resolvedTitle = AppRouter.getRouteTitle(routeName, null, extra);
+      }
     }
 
     if (isScrolled) {
@@ -147,19 +162,24 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: toolbarHeight,
       leading: leadingWidget,
       leadingWidth: variant == HeaderVariant.detail ? 56 : null,
-      title: Text(
-        resolvedTitle,
-        style: context.text.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      title: scrolledTitleWidget != null && isScrolled
+          ? scrolledTitleWidget
+          : titleWidget ??
+                Text(
+                  resolvedTitle,
+                  style: context.text.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
       centerTitle: effectiveCenterTitle,
       elevation: isScrolled ? 3 : 0,
       scrolledUnderElevation: 0,
       actions: actionWidgets,
+      bottom: bottom,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(toolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(toolbarHeight + (bottom?.preferredSize.height ?? 0));
 }
