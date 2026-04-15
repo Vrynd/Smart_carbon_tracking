@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchBar;
 import 'package:provider/provider.dart';
 import 'package:smart_carbon_tracking/core/core.dart';
 import 'package:smart_carbon_tracking/features/history/history.dart';
@@ -11,7 +11,22 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  @override
+  void _showFilterBottomSheet(BuildContext context, HistoryController controller) {
+    FilterBottomSheet.show(
+      context,
+      selectedTab: controller.selectedTab,
+      sortBy: controller.sortBy,
+      categories: controller.categories,
+      onApply: ({category, sortBy}) {
+        controller.applyFilters(
+          category: category,
+          sortBy: sortBy,
+        );
+      },
+    );
+  }
+
+  @override  
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -27,68 +42,69 @@ class _HistoryScreenState extends State<HistoryScreen> {
       builder: (context, controller, _) {
         return ScaffoldApp(
           backgroundColor: context.colors.surfaceContainerLow,
-          appBar: HeaderApp(
-            scrolledTitleWidget: HistorySearchBar(
-              isSeamless: true,
-              searchQuery: controller.searchQuery,
-              onSearchChanged: controller.updateSearch,
-              onFilterPressed: () {},
-            ),
-            bottom: HistoryCategoryChips(
-              isSeamless: true,
-              selectedTab: controller.selectedTab,
-              categories: controller.categories,
-              onTabChanged: controller.updateTab,
-            ),
-          ),
+          appBar: const HeaderApp(),
           body: ScrollConfiguration(
             behavior: const ScrollBehavior().copyWith(
               overscroll: false,
               physics: const BouncingScrollPhysics(),
             ),
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
               children: [
-                HistorySummaryCard(
-                  totalCarbon: controller.totalCarbonThisMonth,
-                  totalScans: controller.totalScansThisMonth,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HistorySummaryCard(
+                    totalCarbon: controller.totalCarbonThisMonth,
+                    totalScans: controller.totalScansThisMonth,
+                  ),
                 ),
                 AppSpacing.vGap24,
 
-                // Initial Search Bar (Scrolls away to title)
-                HistorySearchBar(
-                  searchQuery: controller.searchQuery,
-                  onSearchChanged: controller.updateSearch,
-                  onFilterPressed: () {},
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SearchBar(
+                    searchQuery: controller.searchQuery,
+                    onSearchChanged: controller.updateSearch,
+                    onFilterPressed: () => _showFilterBottomSheet(context, controller),
+                    showFilterDot: controller.hasActiveFilters,
+                  ),
                 ),
                 AppSpacing.vGap24,
 
-                // List Title
-                TitleAction(
-                  title: 'Recent Scans',
-                  subTitle: 'Your environmental impact history',
-                  actionType: ActionType.none,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TitleAction(
+                    title: 'Recent Scans',
+                    subTitle: 'A detailed log of your carbon footprint and tracked activities',
+                    actionType: ActionType.none,
+                  ),
                 ),
                 AppSpacing.vGap12,
 
                 if (controller.isLoading)
                   const Center(child: CircularProgressIndicator())
                 else if (controller.filteredHistory.isEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 40),
-                      child: AppEmptyState(
-                        title: 'Tidak Ada Riwayat',
-                        subtitle:
-                            'Belum ada struk yang sesuai dengan filter Anda',
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: AppEmptyState(
+                          title: 'No History Found',
+                          subtitle:
+                              'No receipts match your current filters.',
+                        ),
                       ),
                     ),
                   )
                 else
                   ...controller.filteredHistory.map((item) {
-                    return HistoryTile(
-                      item: item,
-                      onDelete: () => controller.deleteHistoryItem(item.id),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: HistoryTile(
+                        item: item,
+                        onDelete: () => controller.deleteHistoryItem(item.id),
+                      ),
                     );
                   }),
               ],

@@ -17,34 +17,54 @@ class AppBottomSheetOption {
 }
 
 class AppBottomSheet {
-  static Future<T?> showSelection<T>(
+  static Future<T?> show<T>(
     BuildContext context, {
     required String title,
-    required List<AppBottomSheetOption> options,
-    required T selectedValue,
+    String? subtitle,
+    required Widget child,
+    Widget? headerAction,
   }) {
     return showModalBottomSheet<T>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => _BottomSheetWidget<T>(
+      builder: (context) => AppBottomSheetWrapper(
         title: title,
-        options: options,
-        selectedValue: selectedValue,
+        subtitle: subtitle,
+        headerAction: headerAction,
+        child: child,
       ),
+    );
+  }
+
+  static Future<T?> showSelection<T>(
+    BuildContext context, {
+    required String title,
+    String? subtitle,
+    required List<AppBottomSheetOption> options,
+    required T selectedValue,
+  }) {
+    return show<T>(
+      context,
+      title: title,
+      subtitle: subtitle,
+      child: _SelectionList<T>(options: options, selectedValue: selectedValue),
     );
   }
 }
 
-class _BottomSheetWidget<T> extends StatelessWidget {
+class AppBottomSheetWrapper extends StatelessWidget {
   final String title;
-  final List<AppBottomSheetOption> options;
-  final T selectedValue;
+  final String? subtitle;
+  final Widget? headerAction;
+  final Widget child;
 
-  const _BottomSheetWidget({
+  const AppBottomSheetWrapper({
+    super.key,
     required this.title,
-    required this.options,
-    required this.selectedValue,
+    this.subtitle,
+    this.headerAction,
+    required this.child,
   });
 
   @override
@@ -61,11 +81,15 @@ class _BottomSheetWidget<T> extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: EdgeInsets.fromLTRB(
+        24,
+        12,
+        24,
+        MediaQuery.of(context).padding.bottom + 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Handle bar
           Container(
             width: 48,
             height: 5,
@@ -75,78 +99,107 @@ class _BottomSheetWidget<T> extends StatelessWidget {
             ),
           ),
           AppSpacing.vGap24,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: context.text.titleLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-                color: context.colors.onSurface,
-              ),
-            ),
-          ),
-          AppSpacing.vGap24,
-          Flexible(
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: options.length,
-              separatorBuilder: (context, index) => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: DashedDivider(),
-              ),
-              itemBuilder: (context, index) {
-                final option = options[index];
-                final isSelected = option.value == selectedValue;
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: ListTile(
-                    onTap: () => Navigator.pop(context, option.value),
-                    contentPadding: EdgeInsets.zero,
-                    leading: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? context.colors.primaryContainer.withValues(alpha: .4)
-                            : context.colors.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: HugeIcon(
-                        icon: option.icon,
-                        color: isSelected ? context.colors.primary : Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                    title: Text(
-                      option.label,
-                      style: context.text.bodyLarge?.copyWith(
-                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? context.colors.primary : context.colors.onSurface,
-                      ),
-                    ),
-                    trailing: isSelected
-                        ? Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: context.colors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 14,
-                            ),
-                          )
-                        : null,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: context.text.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: context.colors.onSurface,
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+              if (headerAction != null) headerAction!,
+            ],
           ),
-          AppSpacing.vGap16,
+          if (subtitle != null) ...[
+            AppSpacing.vGap4,
+            Text(
+              subtitle!,
+              style: context.text.bodyMedium?.copyWith(
+                color: context.colors.onSurfaceVariant.withValues(alpha: .7),
+                height: 1.3,
+              ),
+            ),
+          ],
+          AppSpacing.vGap24,
+
+          Flexible(child: child),
         ],
       ),
+    );
+  }
+}
+
+class _SelectionList<T> extends StatelessWidget {
+  final List<AppBottomSheetOption> options;
+  final T selectedValue;
+
+  const _SelectionList({required this.options, required this.selectedValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: options.length,
+      separatorBuilder: (context, index) => const Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: DashedDivider(),
+      ),
+      itemBuilder: (context, index) {
+        final option = options[index];
+        final isSelected = option.value == selectedValue;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: ListTile(
+            onTap: () => Navigator.pop(context, option.value),
+            contentPadding: EdgeInsets.zero,
+            leading: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? context.colors.primaryContainer.withValues(alpha: .4)
+                    : context.colors.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: HugeIcon(
+                icon: option.icon,
+                color: isSelected ? context.colors.primary : Colors.grey,
+                size: 20,
+              ),
+            ),
+            title: Text(
+              option.label,
+              style: context.text.bodyLarge?.copyWith(
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected
+                    ? context.colors.primary
+                    : context.colors.onSurface,
+              ),
+            ),
+            trailing: isSelected
+                ? Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: context.colors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.check,
+                      color: context.colors.surface,
+                      size: 14,
+                    ),
+                  )
+                : null,
+          ),
+        );
+      },
     );
   }
 }

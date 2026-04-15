@@ -6,15 +6,30 @@ class HistoryController extends ChangeNotifier {
   List<HistoryItem> _allHistory = [];
   String _searchQuery = '';
   String _selectedTab = 'All';
+  String _sortBy = 'newest'; // newest, emission
   
   bool _isLoading = false;
 
   List<HistoryItem> get allHistory => _allHistory;
   String get searchQuery => _searchQuery;
   String get selectedTab => _selectedTab;
+  String get sortBy => _sortBy;
   bool get isLoading => _isLoading;
 
-  final List<String> categories = ['All', 'Grocery', 'Dining', 'Electronics'];
+  bool get hasActiveFilters => 
+      _selectedTab != 'All' || 
+      _sortBy != 'newest';
+
+  final List<String> categories = [
+    'All',
+    'Grocery',
+    'Dining',
+    'Electronics',
+    'Travel',
+    'Fashion',
+    'Health',
+    'Transport',
+  ];
 
   void init() {
     _isLoading = true;
@@ -27,7 +42,7 @@ class HistoryController extends ChangeNotifier {
   }
 
   List<HistoryItem> get filteredHistory {
-    return _allHistory.where((item) {
+    List<HistoryItem> filtered = _allHistory.where((item) {
       final matchesSearch = item.storeName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           item.category.toLowerCase().contains(_searchQuery.toLowerCase());
       
@@ -35,6 +50,15 @@ class HistoryController extends ChangeNotifier {
       
       return matchesSearch && matchesTab;
     }).toList();
+
+    // Apply sorting
+    if (_sortBy == 'newest') {
+      filtered.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    } else if (_sortBy == 'emission') {
+      filtered.sort((a, b) => b.totalCarbonKg.compareTo(a.totalCarbonKg));
+    }
+
+    return filtered;
   }
 
   double get totalCarbonThisMonth {
@@ -51,8 +75,12 @@ class HistoryController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTab(String tab) {
-    _selectedTab = tab;
+  void applyFilters({
+    String? category,
+    String? sortBy,
+  }) {
+    if (category != null) _selectedTab = category;
+    if (sortBy != null) _sortBy = sortBy;
     notifyListeners();
   }
 

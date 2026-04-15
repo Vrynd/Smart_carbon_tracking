@@ -19,7 +19,6 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
   final bool isScrolled;
   final PreferredSizeWidget? bottom;
   final Widget? titleWidget;
-  final Widget? scrolledTitleWidget;
 
   const HeaderApp({
     super.key,
@@ -33,7 +32,6 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
     this.isScrolled = false,
     this.bottom,
     this.titleWidget,
-    this.scrolledTitleWidget,
   });
 
   @override
@@ -107,7 +105,7 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: const DecorationImage(
                     image: NetworkImage(
-                      'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop', // Professional male portrait
+                      'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -132,50 +130,70 @@ class HeaderApp extends StatelessWidget implements PreferredSizeWidget {
     bool effectiveCenterTitle = centerTitle ?? (variant == HeaderVariant.main);
 
     // Resolve dynamic title if not provided
-    String? resolvedTitle = title;
-    if (resolvedTitle == null) {
-      final state = GoRouterState.of(context);
-      final String? routeName = state.name;
-      final dynamic extra = state.extra;
+    String resolvedTitle = title ?? '';
+    if (title == null) {
+      try {
+        final state = GoRouterState.of(context);
+        final String? routeName = state.name;
+        final dynamic extra = state.extra;
 
-      if (routeName == 'navigation') {
-        // If we are in the navigation shell, resolve title based on tab index
-        final navIndex = context.watch<BottomBarController>().selectedIndex;
-        resolvedTitle = AppRouter.getRouteTitle(routeName, navIndex, extra);
-      } else {
-        resolvedTitle = AppRouter.getRouteTitle(routeName, null, extra);
+        if (routeName == 'navigation') {
+          final navIndex = context.watch<BottomBarController>().selectedIndex;
+          resolvedTitle = AppRouter.getRouteTitle(routeName, navIndex, extra);
+        } else {
+          resolvedTitle = AppRouter.getRouteTitle(routeName, null, extra);
+        }
+      } catch (e) {
+        resolvedTitle = 'Carbon Tracking';
       }
-    }
-
-    if (isScrolled) {
-      debugPrint('[HeaderApp] Status: SCROLLED (Solid White)');
-    } else {
-      debugPrint('[HeaderApp] Status: TOP (Matching Surface)');
     }
 
     return AppBar(
       backgroundColor:
           backgroundColor ??
           (isScrolled
-              ? context.colors.surfaceContainerLowest
+              ? context.colors.surfaceContainerLowest.withValues(alpha: 0.8)
               : context.colors.surfaceContainerLow),
+      elevation: 0,
+      scrolledUnderElevation: 0,
       toolbarHeight: toolbarHeight,
       leading: leadingWidget,
       leadingWidth: variant == HeaderVariant.detail ? 56 : null,
-      title: scrolledTitleWidget != null && isScrolled
-          ? scrolledTitleWidget
-          : titleWidget ??
-                Text(
-                  resolvedTitle,
-                  style: context.text.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+      title:
+          titleWidget ??
+          Text(
+            resolvedTitle,
+            style: context.text.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+          ),
       centerTitle: effectiveCenterTitle,
-      elevation: isScrolled ? 3 : 0,
-      scrolledUnderElevation: 0,
       actions: actionWidgets,
       bottom: bottom,
+      flexibleSpace:
+          isScrolled
+              ? ClipRRect(
+                child: BackdropFilter(
+                  filter: ColorFilter.mode(
+                    context.colors.surfaceContainerLowest.withValues(
+                      alpha: 0.1,
+                    ),
+                    BlendMode.srcOver,
+                  ),
+                  child: Container(color: Colors.transparent),
+                ),
+              )
+              : null,
+      shape:
+          isScrolled
+              ? Border(
+                bottom: BorderSide(
+                  color: context.colors.outlineVariant.withValues(alpha: 0.5),
+                  width: 1,
+                ),
+              )
+              : null,
     );
   }
 

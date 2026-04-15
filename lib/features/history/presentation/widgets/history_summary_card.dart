@@ -20,7 +20,6 @@ class HistorySummaryCard extends StatelessWidget {
       showBorder: false,
       child: Stack(
         children: [
-          // Background Decoration Icon
           Positioned(
             right: -20,
             bottom: -20,
@@ -39,7 +38,7 @@ class HistorySummaryCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Analisis Bulan Ini',
+                    'This Month’s Analysis',
                     style: context.text.titleMedium?.copyWith(
                       color: context.colors.onPrimary.withValues(alpha: 0.8),
                     ),
@@ -90,7 +89,7 @@ class HistorySummaryCard extends StatelessWidget {
                       size: 16,
                     ),
                     Text(
-                      '$totalScans Berhasil di-scan',
+                      '$totalScans Scanned successfully',
                       style: context.text.labelLarge?.copyWith(
                         color: context.colors.onPrimary,
                         fontWeight: FontWeight.w600,

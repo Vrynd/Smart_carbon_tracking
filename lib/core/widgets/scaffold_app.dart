@@ -79,7 +79,6 @@ class _ScaffoldAppState extends State<ScaffoldApp> {
         isScrolled: _isScrolled,
         bottom: appBar.bottom,
         titleWidget: appBar.titleWidget,
-        scrolledTitleWidget: appBar.scrolledTitleWidget,
       );
     }
 
