@@ -12,4 +12,3 @@ export 'presentation/widgets/total_emission.dart';
 export 'presentation/widgets/history_info.dart';
 export 'presentation/widgets/receipt_breakdown.dart';
 export 'presentation/widgets/carbon_context.dart';
-export 'presentation/widgets/green_tips.dart';

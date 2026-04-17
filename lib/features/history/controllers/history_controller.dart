@@ -8,15 +8,14 @@ class HistoryController extends ChangeNotifier {
   List<HistoryItem> _allHistory = [];
   String _searchQuery = '';
   String _selectedTab = 'All';
-  String _sortBy = 'newest'; // newest, emission
+  String _sortBy = 'newest';
   
   bool _isLoading = false;
 
-  // ─── Detail State ───
   HistoryItem? _selectedItem;
   List<HistoryDetailItem> _detailItems = [];
   List<CarbonEquivalent> _carbonEquivalents = [];
-  List<String> _greenTips = [];
+
   bool _isDetailLoading = false;
 
   List<HistoryItem> get allHistory => _allHistory;
@@ -29,7 +28,7 @@ class HistoryController extends ChangeNotifier {
   HistoryItem? get selectedItem => _selectedItem;
   List<HistoryDetailItem> get detailItems => _detailItems;
   List<CarbonEquivalent> get carbonEquivalents => _carbonEquivalents;
-  List<String> get greenTips => _greenTips;
+
   bool get isDetailLoading => _isDetailLoading;
 
   bool get hasActiveFilters => 
@@ -50,14 +49,12 @@ class HistoryController extends ChangeNotifier {
   void init() {
     _isLoading = true;
     notifyListeners();
-    
-    // Simulate data fetch
+
     _allHistory = HistoryData.getMockHistory();
     _isLoading = false;
     notifyListeners();
   }
 
-  // ─── Detail Methods ───
   void loadDetail(HistoryItem item) {
     _isDetailLoading = true;
     _selectedItem = item;
@@ -65,7 +62,7 @@ class HistoryController extends ChangeNotifier {
 
     _detailItems = HistoryData.getDetailItems(item.id);
     _carbonEquivalents = HistoryData.getCarbonEquivalents(item.totalCarbonKg);
-    _greenTips = HistoryData.getGreenTips(item.category);
+
 
     _isDetailLoading = false;
     notifyListeners();
@@ -75,12 +72,11 @@ class HistoryController extends ChangeNotifier {
     _selectedItem = null;
     _detailItems = [];
     _carbonEquivalents = [];
-    _greenTips = [];
+
     _isDetailLoading = false;
     notifyListeners();
   }
 
-  /// Rata-rata emisi harian (total / 30 hari)
   double get averageDailyCarbon {
     if (_allHistory.isEmpty) return 0;
     return totalCarbonThisMonth / 30;

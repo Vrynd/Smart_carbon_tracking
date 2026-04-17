@@ -104,7 +104,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: HistoryTile(
                         item: item,
-                        onDelete: () => controller.deleteHistoryItem(item.id),
                         onTap: () => context.push('/history/detail', extra: item),
                       ),
                     );

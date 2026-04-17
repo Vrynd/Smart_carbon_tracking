@@ -34,22 +34,24 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _showLanguage() async {
-    final result = await AppBottomSheet.showSelection<String>(
+    final result = await AppBottomSheet.show<String>(
       context,
-      title: 'Select Language',
-      selectedValue: _selectedLanguage,
-      options: [
-        const AppBottomSheetOption(
-          label: 'English',
-          icon: HugeIcons.strokeRoundedGlobe,
-          value: 'English',
-        ),
-        const AppBottomSheetOption(
-          label: 'Bahasa Indonesia',
-          icon: HugeIcons.strokeRoundedGlobe,
-          value: 'Bahasa Indonesia',
-        ),
-      ],
+      child: AppSelectionSheet<String>(
+        title: 'Select Language',
+        selectedValue: _selectedLanguage,
+        options: [
+          const AppBottomSheetOption(
+            label: 'English',
+            icon: HugeIcons.strokeRoundedGlobe,
+            value: 'English',
+          ),
+          const AppBottomSheetOption(
+            label: 'Bahasa Indonesia',
+            icon: HugeIcons.strokeRoundedGlobe,
+            value: 'Bahasa Indonesia',
+          ),
+        ],
+      ),
     );
 
     if (result != null && result != _selectedLanguage) {
@@ -60,22 +62,24 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _showThemeMode() async {
-    final result = await AppBottomSheet.showSelection<String>(
+    final result = await AppBottomSheet.show<String>(
       context,
-      title: 'Select Theme Mode',
-      selectedValue: _selectedTheme,
-      options: [
-        const AppBottomSheetOption(
-          label: 'Light Mode',
-          icon: HugeIcons.strokeRoundedSun01,
-          value: 'Light',
-        ),
-        const AppBottomSheetOption(
-          label: 'Dark Mode',
-          icon: HugeIcons.strokeRoundedMoon02,
-          value: 'Dark',
-        ),
-      ],
+      child: AppSelectionSheet<String>(
+        title: 'Select Theme Mode',
+        selectedValue: _selectedTheme,
+        options: [
+          const AppBottomSheetOption(
+            label: 'Light Mode',
+            icon: HugeIcons.strokeRoundedSun01,
+            value: 'Light',
+          ),
+          const AppBottomSheetOption(
+            label: 'Dark Mode',
+            icon: HugeIcons.strokeRoundedMoon02,
+            value: 'Dark',
+          ),
+        ],
+      ),
     );
 
     if (result != null && result != _selectedTheme) {
@@ -86,22 +90,24 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _showNotification() async {
-    final result = await AppBottomSheet.showSelection<bool>(
+    final result = await AppBottomSheet.show<bool>(
       context,
-      title: 'Notifications Settings',
-      selectedValue: _isNotificationEnabled,
-      options: [
-        const AppBottomSheetOption(
-          label: 'Enable Notifications',
-          icon: HugeIcons.strokeRoundedNotification03,
-          value: true,
-        ),
-        const AppBottomSheetOption(
-          label: 'Disable Notifications',
-          icon: HugeIcons.strokeRoundedNotificationOff01,
-          value: false,
-        ),
-      ],
+      child: AppSelectionSheet<bool>(
+        title: 'Notifications Settings',
+        selectedValue: _isNotificationEnabled,
+        options: [
+          const AppBottomSheetOption(
+            label: 'Enable Notifications',
+            icon: HugeIcons.strokeRoundedNotification03,
+            value: true,
+          ),
+          const AppBottomSheetOption(
+            label: 'Disable Notifications',
+            icon: HugeIcons.strokeRoundedNotificationOff01,
+            value: false,
+          ),
+        ],
+      ),
     );
 
     if (result != null && result != _isNotificationEnabled) {

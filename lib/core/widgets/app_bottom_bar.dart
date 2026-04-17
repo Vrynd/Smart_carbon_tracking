@@ -104,11 +104,14 @@ class AppBottomBar extends StatelessWidget {
   }
 
   Widget _buildActionButton(BuildContext context) {
+    final bool hasSwitch = onConfirmedChanged != null;
+    final bool isActive = (!hasSwitch || isConfirmed) && onActionPressed != null;
+
     return SizedBox(
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
-        onPressed: isConfirmed ? onActionPressed : null,
+        onPressed: isActive ? onActionPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor ?? context.colors.primary,
           foregroundColor: fgColor ?? context.colors.onPrimary,
@@ -120,9 +123,9 @@ class AppBottomBar extends StatelessWidget {
         ),
         child: Text(
           buttonLabel ?? '',
-          style: context.text.titleMedium?.copyWith(
+          style: context.text.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
-            color: (isConfirmed && onActionPressed != null)
+            color: isActive
                 ? (fgColor ?? context.colors.onPrimary)
                 : context.colors.onSurfaceVariant.withValues(
                     alpha: 0.5,

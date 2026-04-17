@@ -74,7 +74,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomSheetWrapper(
+    return AppBottomSheetShell(
       title: 'Filter History',
       subtitle: 'Refine your view by selecting categories or adjusting the sort order to find specific transactions and track your carbon impact.',
       headerAction: TextButton(

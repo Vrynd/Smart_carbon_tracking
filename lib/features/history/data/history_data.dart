@@ -85,52 +85,6 @@ class HistoryData {
     ];
   }
 
-  // ─── Green Tips by Category ───
-  static List<String> getGreenTips(String category) {
-    final Map<String, List<String>> tipsMap = {
-      'Grocery': [
-        'Bring your own shopping bag to reduce single-use plastic.',
-        'Choose local products to reduce emissions from transportation.',
-        'Reduce red meat consumption — try plant-based alternatives.',
-        'Buy in bulk to reduce packaging waste.',
-      ],
-      'Dining': [
-        'Bring your own tumbler to reduce single-use cups.',
-        'Choose cafes that use fair trade coffee beans.',
-        'Avoid food waste — order only what you need.',
-      ],
-      'Electronics': [
-        'Choose devices with Energy Star certification.',
-        'Extend device life with regular maintenance.',
-        'Donate or recycle old devices properly.',
-      ],
-      'Travel': [
-        'Consider ground transportation for short distances.',
-        'Choose airlines with carbon offset programs.',
-        'Use public transportation at your destination.',
-      ],
-      'Fashion': [
-        'Choose clothes from organic or recycled materials.',
-        'Buy high-quality clothes that last longer.',
-        'Try thrift shops to reduce fast fashion impact.',
-      ],
-      'Health': [
-        'Choose health products with eco-friendly packaging.',
-        'Use refillable products if available.',
-        'Recycle medicine packaging correctly.',
-      ],
-      'Transport': [
-        'Consider electric or hybrid vehicles.',
-        'Perform carpooling to reduce emissions per person.',
-        'Maintain optimal tire pressure for fuel efficiency.',
-        'Use public transportation whenever possible.',
-      ],
-    };
-    return tipsMap[category] ?? [
-      'Reduce, reuse, and recycle.',
-      'Choose eco-friendly products.',
-    ];
-  }
 
   static List<HistoryItem> getMockHistory() {
     return [

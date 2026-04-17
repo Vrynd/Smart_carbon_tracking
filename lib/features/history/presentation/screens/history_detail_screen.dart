@@ -15,8 +15,6 @@ class HistoryDetailScreen extends StatefulWidget {
 }
 
 class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
-  bool _isConfirmed = false;
-
   @override
   void initState() {
     super.initState();
@@ -33,14 +31,16 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
   }
 
   void _handleDelete() async {
-    final confirmed = await AppBottomSheet.showConfirmation(
+    final confirmed = await AppBottomSheet.show<bool>(
       context,
-      title: 'Delete History',
-      subtitle:
-          'Are you sure you want to delete this duty from ${widget.item.storeName}? This action cannot be undone.',
-      confirmLabel: 'Delete Now',
-      cancelLabel: 'Cancel',
-      isDanger: true,
+      child: AppConfirmationSheet(
+        title: 'Delete History',
+        subtitle:
+            'Are you sure you want to delete this duty from ${widget.item.storeName}? This action cannot be undone.',
+        confirmLabel: 'Delete Now',
+        cancelLabel: 'Cancel',
+        isDanger: true,
+      ),
     );
 
     if (!mounted) return;
@@ -91,24 +91,13 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
                         CarbonContext(
                           equivalents: controller.carbonEquivalents,
                         ),
-                        AppSpacing.vGap16,
                       ],
 
-                      if (controller.greenTips.isNotEmpty) ...[
-                        GreenTips(
-                          tips: controller.greenTips,
-                        ),
-                      ],
+
                     ],
                   ),
                 ),
           bottomNavigationBar: AppBottomDualAction(
-            safetyTitle: 'Permanent Deletion',
-            safetySubtitle: 'I agree to delete this history permanently',
-            isConfirmed: _isConfirmed,
-            onConfirmedChanged: (val) {
-              setState(() => _isConfirmed = val);
-            },
             primaryLabel: 'Delete History Now',
             onPrimaryPressed: _handleDelete,
             primaryColor: Colors.red.shade400,
