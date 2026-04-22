@@ -62,13 +62,9 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           ),
           bottomNavigationBar:
               (!controller.showFullHistory && controller.hasMoreActivities)
-              ? AppBottomBar(
-                  buttonLabel: 'See Older Activities',
-                  isConfirmed: true,
-                  showDecoration: false,
-                  bgColor: context.colors.primary.withValues(alpha: 0.08),
-                  fgColor: context.colors.primary,
-                  onActionPressed: () => controller.toggleFullHistory(true),
+              ? AppBottomBar.action(
+                  label: 'See Older Activities',
+                  onPressed: () => controller.toggleFullHistory(true),
                 )
               : null,
         );

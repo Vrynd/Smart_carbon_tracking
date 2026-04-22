@@ -21,13 +21,13 @@ class BarAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomBar(
-      safetyTitle: safetyTitle,
-      safetySubtitle: safetySubtitle,
-      buttonLabel: buttonLabel,
+    return AppBottomBar.safety(
+      title: safetyTitle,
+      subtitle: safetySubtitle,
+      label: buttonLabel,
       isConfirmed: isConfirmed,
-      onConfirmedChanged: onConfirmedChanged,
-      onActionPressed: onPressed,
+      onToggle: onConfirmedChanged,
+      onPressed: onPressed,
     );
   }
 }

@@ -97,13 +97,13 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
                     ],
                   ),
                 ),
-          bottomNavigationBar: AppBottomDualAction(
+          bottomNavigationBar: AppBottomBar.dualAction(
             primaryLabel: 'Delete History Now',
-            onPrimaryPressed: _handleDelete,
+            onPrimaryTap: _handleDelete,
             primaryColor: Colors.red.shade400,
             secondaryLabel: 'Share',
             secondaryIcon: HugeIcons.strokeRoundedShare01,
-            onSecondaryPressed: () {
+            onSecondaryTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Sharing feature is coming soon!'),
